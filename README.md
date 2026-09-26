@@ -1,4 +1,4 @@
-# ParkSmart Kenya — Modern Parking Management System
+# Parking System — Modern Parking Management System
 
 A functional web-based parking system developed in Python/Flask for the Data Structures and Algorithms assignment.
 
