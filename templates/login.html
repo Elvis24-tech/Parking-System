@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="login-wrap">
+    <section class="card login-card">
+        <h1>Parking Systen</h1>
+        <p>Sign in to operate the parking system.</p>
+        <form method="post">
+            <label>
+                Username
+                <input name="username" value="admin" required>
+            </label>
+            <label>
+                Password
+                <input type="password" name="password" value="admin123" required>
+            </label>
+            <button class="btn primary" type="submit">Sign In</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

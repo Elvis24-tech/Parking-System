@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1>Parking Dashboard</h1>
+        <p>View availability before admitting vehicles.</p>
+    </div>
+    <div class="clock" id="clock"></div>
+</div>
+<div class="stats">
+    <div class="stat">
+        <span>Total Slots</span>
+        <b>{{ totals.total }}</b>
+    </div>
+    <div class="stat green">
+        <span>Available</span>
+        <b>{{ totals.available or 0 }}</b>
+    </div>
+    <div class="stat red">
+        <span>Occupied</span>
+        <b>{{ totals.occupied or 0 }}</b>
+    </div>
+
+    <div class="stat">
+        <span>Revenue</span>
+        <b>KSh {{ '{:,.0f}'.format(revenue) }}</b>
+    </div>
+</div>
+<section class="card">
+    <div class="section-title">
+        <h2>Live Slot Map</h2>
+        <a class="btn primary" href="{{ url_for('entry') }}">
+            + Record Entry
+        </a>
+    </div>
+    <div class="legend">
+        <span>
+            <i class="available"></i>
+            Available
+        </span>
+        <span>
+            <i class="occupied"></i>
+            Occupied
+        </span>
+        <span>
+            <i class="reserved"></i>
+            Reserved
+        </span>
+    </div>
+    <div class="slot-grid">
+        {% for slot in slots %}
+        <div class="slot {{ slot.status|lower }}">
+            <div class="slot-code">
+                {{ slot.slot_code }}
+            </div>
+            <div>
+                {{ slot.status }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+<section class="card">
+    <div class="section-title">
+        <h2>Vehicles Currently Inside</h2>
+        <a href="{{ url_for('exit_vehicle') }}">
+            Process exit →
+        </a>
+    </div>
+    {% if active %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Registration</th>
+                    <th>Slot</th>
+                    <th>Vehicle</th>
+                    <th>Entry Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in active %}
+                <tr>
+                    <td>
+                        <b>{{ row.registration }}</b>
+                    </td>
+                    <td>
+                        {{ row.slot_code }}
+                    </td>
+                    <td>
+                        {{ row.vehicle_type }}
+                    </td>
+                    <td>
+                        {{ row.entry_time }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="empty">
+        No vehicles currently parked.
+    </p>
+    {% endif %}
+</section>
+{% endblock %}

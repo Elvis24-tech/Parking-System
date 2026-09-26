@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1>Vehicle Entry</h1>
+        <p>Assign an available parking slot and record arrival.</p>
+    </div>
+</div>
+<div class="two-col">
+    <section class="card">
+        <h2>Arrival Details</h2>
+        <form method="post">
+            <label>
+                Registration Number
+                <input
+                    name="registration"
+                    placeholder="KDA 123A"
+                    required
+                >
+            </label>
+            <div class="form-grid">
+                <label>
+                    Owner Name
+                    <input
+                        name="owner_name"
+                        placeholder="Optional"
+                    >
+                </label>
+                <label>
+                    Phone
+                    <input
+                        name="phone"
+                        placeholder="07xx xxx xxx"
+                    >
+                </label>
+            </div>
+            <label>
+                Vehicle Type
+                <select name="vehicle_type">
+                    <option>Car</option>
+                    <option>Motorcycle</option>
+                    <option>Van</option>
+                    <option>Truck</option>
+                </select>
+            </label>
+            <label>
+                Select Available Slot
+                <select name="slot_id" required>
+                    {% for slot in slots %}
+                    <option value="{{ slot.id }}">
+                        {{ slot.slot_code }} — Zone {{ slot.zone }}
+                    </option>
+                    {% else %}
+                    <option disabled>
+                        No slots available
+                    </option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button class="btn primary full" type="submit">
+                Record Vehicle Entry
+            </button>
+        </form>
+    </section>
+    <section class="card">
+        <h2>Availability</h2>
+        <p class="muted">
+            Drivers/operators can use this visual map to select an open slot.
+        </p>
+        <div class="mini-grid">
+            {% for slot in slots %}
+            <div class="mini available">
+                {{ slot.slot_code }}
+            </div>
+            {% else %}
+            <p>No available slots.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

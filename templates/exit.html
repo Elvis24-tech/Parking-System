@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1>Vehicle Exit & Payment</h1>
+        <p>Calculate duration, collect payment, and open the exit barrier.</p>
+    </div>
+</div>
+<div class="two-col">
+    <section class="card">
+        <h2>Process Exit</h2>
+        <form method="post">
+            <label>
+                Registration Number
+                <select name="registration" required>
+                    <option value="">Select vehicle</option>
+                    {% for row in active %}
+                    <option value="{{ row.registration }}">
+                        {{ row.registration }} — {{ row.slot_code }} — {{ row.entry_time }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                Payment Method
+                <select name="payment_method">
+                    <option>Cash</option>
+                    <option>M-Pesa</option>
+                    <option>Card</option>
+                </select>
+            </label>
+            <button class="btn primary full" type="submit">
+                Calculate & Record Payment
+            </button>
+        </form>
+    </section>
+    <section class="card tariff">
+        <h2>Parking Tariff</h2>
+        <div class="rate">
+            <span>Up to 30 minutes</span>
+            <b>FREE</b>
+        </div>
+        <div class="rate">
+            <span>Up to 2 hours</span>
+            <b>KSh 50</b>
+        </div>
+        <div class="rate">
+            <span>Up to 4 hours</span>
+            <b>KSh 100</b>
+        </div>
+        <div class="rate">
+            <span>Up to 6 hours</span>
+            <b>KSh 300</b>
+        </div>
+        <div class="rate">
+            <span>Over 6 hours</span>
+            <b>KSh 500</b>
+        </div>
+    </section>
+</div>
+{% if result %}
+<section class="receipt card">
+    <div class="barrier">
+        ▰ BARRIER OPEN
+    </div>
+    <h2>Payment Receipt</h2>
+    <div class="receipt-grid">
+        <span>Receipt</span>
+        <b>{{ result.receipt }}</b>
+        <span>Registration</span>
+        <b>{{ result.registration }}</b>
+        <span>Slot</span>
+        <b>{{ result.slot_code }}</b>
+        <span>Duration</span>
+        <b>{{ result.minutes }} minutes</b>
+        <span>Payment</span>
+        <b>{{ result.payment_method }}</b>
+        <span>Total</span>
+        <b class="amount">
+            KSh {{ '{:,.0f}'.format(result.amount) }}
+        </b>
+    </div>
+    <p class="success-text">
+        Payment recorded successfully. The barrier is open for exit.
+    </p>
+</section>
+{% endif %}
+{% endblock %}
